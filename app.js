@@ -40,6 +40,12 @@ function itemsForLocation() {
     var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
     items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
   }
+
+  for(var i = 0; i <= 2; i++) {
+    var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
+    items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
+  }
+
   return items;
 }
 
@@ -65,6 +71,25 @@ var firstHill = document.getElementById('firstHill');
 var firstHillPizzasAndDeliveries = itemsForLocation();
 listify(firstHill, firstHillPizzasAndDeliveries)
 
+//The Internation District
+var tid = document.getElementById('tid');
+var tidPizzasAndDeliveries = itemsForLocation();
+listify(tid, tidPizzasAndDeliveries)
+
+//South Lake Union
+var slu = document.getElementById('slu');
+var sluPizzasAndDeliveries = itemsForLocation();
+listify(slu, sluPizzasAndDeliveries)
+
+//Georgetown
+var georgetown = document.getElementById('georgetown');
+var georgetownPizzasAndDeliveries = itemsForLocation();
+listify(georgetown, georgetownPizzasAndDeliveries)
+
+//Ravenna
+var ravenna = document.getElementById('ravenna');
+var ravennaPizzasAndDeliveries = itemsForLocation();
+listify(ravenna, ravennaPizzasAndDeliveries)
 
 //SAMS Example
 // var listFodder = ['wizard pajams', 23, false, 'woooo', 'brains', 99];
