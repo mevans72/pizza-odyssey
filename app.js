@@ -1,92 +1,58 @@
 'use strict';
 
-//Create the 'random number generating' function.
-function getRandomIntInclusive(min, max) {
+//sample use of constructor
+function PizzaShop (locationName, storeData) {
+  this.locationName = locationName;
+  this.storeData = storeData;
+  this.reportData = function(min, max) {
+    for(var i = 0; i < this.reportData.length; i++) {
+      var numPizzas = this.generateRandom(this.dataSet[i][1], dataSet[i][2]);
+      var numDeliveries = this.generateRandom(dataSet[i][3], dataSet[i][4]);
+    }
+  }
+}
+
+PizzaShop.prototype.generateRandom = function() {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//Generate the random values for pizza and deliveries for the given time slots.
-function pizzasAndDeliveriesAt(time) {
-  var pizzas = 0;
-  var deliveries = 0;
+// PizzaShop.prototype.reportData = function() {
+//   for(var i = 0; i < this.reportData.length; i++) {
+//     var numPizzas = this.generateRandom(dataSet[i][1], dataSet[i][2]);
+//     var numDeliveries = this.generateRandom(dataSet[i][3], dataSet[i][4]);
+//   }
+// }
 
-  if(time >= 8 && time < 11) {
-    pizzas = getRandomIntInclusive(0,4);
-    deliveries = getRandomIntInclusive(0,4);
-  } else if(time >= 11 && time < 14) {
-    pizzas = getRandomIntInclusive(0,7);
-    deliveries = getRandomIntInclusive(0,4);
-  } else if (time >= 14 && time < 17) {
-    pizzas = getRandomIntInclusive(2, 15);
-    deliveries = getRandomIntInclusive(1, 4);
-  } else if (time >= 17 && time < 20) {
-    pizzas = getRandomIntInclusive(15, 35);
-    deliveries = getRandomIntInclusive(3, 8);
-  } else if (time >= 20 && time < 23) {
-    pizzas = getRandomIntInclusive(12, 31);
-    deliveries = getRandomIntInclusive(5, 12);
-  } else if (time >= 0 && time < 2) {
-    pizzas = getRandomIntInclusive(5, 20);
-    deliveries = getRandomIntInclusive(6, 11);
+//PizzaShop.prototype.calcPizzasPerHr = function() {
+//
+// }
+
+PizzaShop.prototype.makeTableRow = function createTableRow(rowLables) {
+  var row = document.createElement('tr');
+  for(var i = 0; i<rowLables.length; i++) {
+    var column = document.createElement('td');
+    column.textContent = rowLables[i];
+    row.appendChild(column);
   }
-  return [pizzas, deliveries]
+  return row;
 }
 
-//Create the array of pizzas and delivers.
-function itemsForLocation() {
-  var items = []
 
-  for(var i = 8; i <= 23; i++) {
-    var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
-    items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
-  }
 
-  for(var i = 0; i <= 2; i++) {
-    var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
-    items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
-  }
+var ballardData = [['8am-11am', 0, 4, 0, 4], ['11am-2pm', 0, 4, 0, 7], ['2pm-5pm', 2, 15, 1, 4], ['5pm-8pm', 15, 35, 3, 8], ['8pm-11pm', 12, 31, 5, 12], ['11pm-2am', 5, 20, 6, 11]];
+var ballard = new PizzaShop('ballard', ballardData);
 
-  return items;
-}
+var firstHillData = [['8am-11am', 1, 3, 1, 7], ['11am-2pm', 5, 9, 2, 8], ['2pm-5pm', 2, 13, 1, 6], ['5pm-8pm', 18, 32, 3, 9], ['8pm-11pm', 1, 3, 5, 12], ['11pm-2am', 8, 20, 6, 16]];
+// var firstHill = new PizzaShop('firstHill', firstHillData);
 
-//Create the 'listing' function.
-function listify(placeForMahList, stuffToBeListed) {
-  //for loop to iterate through array
-  for(var i = 0; i < stuffToBeListed.length; i++) {
-    // build an <li> element
-    var liEl = document.createElement('li');
-    liEl.textContent = stuffToBeListed[i];
-    //put it in the DOM
-    placeForMahList.appendChild(liEl);
-  }
-}
+var tidData = [['8am-11am', 0, 4, 0, 4], ['11am-2pm', 0, 7, 0, 4], ['2pm-5pm', 2, 15, 1, 4], ['5pm-8pm', 10, 26, 4, 6], ['8pm-11pm', 8, 22, 7, 15], ['11pm-2am', 0, 2, 2, 8]];
+// var tid = new PizzaShop('tid', tidData);
 
-//Ballard
-var ballard = document.getElementById('ballard');
-var ballardPizzasAndDeliveries = itemsForLocation();
-listify(ballard, ballardPizzasAndDeliveries)
+var sluData = [['8am-11am', 0, 4, 0, 4], ['11am-2pm', 0, 7, 0, 4], ['2pm-5pm', 5, 15, 0, 4], ['5pm-8pm', 25, 39, 13, 18], ['8pm-11pm', 22, 36, 5, 22], ['11pm-2am', 5, 21, 16, 31]];
+// var slu = new PizzaShop('slu', sluData);
 
-//First Hill
-var firstHill = document.getElementById('firstHill');
-var firstHillPizzasAndDeliveries = itemsForLocation();
-listify(firstHill, firstHillPizzasAndDeliveries)
+var georgetownData = [['8am-11am', 2, 7, 3, 5], ['11am-2pm', 3, 8, 3, 9], ['2pm-5pm', 1, 5, 1, 4], ['5pm-8pm', 5, 13, 2, 4], ['8pm-11pm', 22, 41, 15, 42], ['11pm-2am', 15, 20, 6, 21]];
+// var georgetown = new PizzaShop('georgetown', georgetownData);
 
-//The Internation District
-var tid = document.getElementById('tid');
-var tidPizzasAndDeliveries = itemsForLocation();
-listify(tid, tidPizzasAndDeliveries)
-
-//South Lake Union
-var slu = document.getElementById('slu');
-var sluPizzasAndDeliveries = itemsForLocation();
-listify(slu, sluPizzasAndDeliveries)
-
-//Georgetown
-var georgetown = document.getElementById('georgetown');
-var georgetownPizzasAndDeliveries = itemsForLocation();
-listify(georgetown, georgetownPizzasAndDeliveries)
-
-//Ravenna
-var ravenna = document.getElementById('ravenna');
-var ravennaPizzasAndDeliveries = itemsForLocation();
-listify(ravenna, ravennaPizzasAndDeliveries)
+var ravennaData = [['8am-11am', 0, 4, 0, 4], ['11am-2pm', 0, 7, 0, 4], ['2pm-5pm', 2, 15, 1, 4], ['5pm-8pm', 6, 9, 5, 18], ['8pm-11pm', 2, 8, 2, 5], ['11pm-2am', 2, 4, 3, 11]];
+// var ravenna = new PizzaShop('ravenna', ravennaData);
