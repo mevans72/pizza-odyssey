@@ -90,30 +90,3 @@ listify(georgetown, georgetownPizzasAndDeliveries)
 var ravenna = document.getElementById('ravenna');
 var ravennaPizzasAndDeliveries = itemsForLocation();
 listify(ravenna, ravennaPizzasAndDeliveries)
-
-//SAMS Example
-// var listFodder = ['wizard pajams', 23, false, 'woooo', 'brains', 99];
-// var placeForMahList = document.getElementById('djung');
-//
-// function listify(stuffToBeListed) {
-//   //for loop to iterate through array
-//   for(var i = 0; i < stuffToBeListed.length; i++) {
-//     // build an <li> element
-//     var liEl = document.createElement('li');
-//     liEl.textContent = stuffToBeListed[i];
-//     //put it in the DOM
-//     placeForMahList.appendChild(liEl);
-//   }
-// }
-
-//Misty's
-// function listify(placeForMyList, stuffToBeListed) {
-//   // for loop to iterate thru yon array
-//   for (var i = 0; i < stuffToBeListed.length; i++) {
-//     // build an <li> element
-//     var liEl = document.createElement('li');
-//     liEl.textContent = stuffToBeListed[i];
-//     // put it in the DOM
-//     placeForMyList.appendChild(liEl);
-//   }
-// }
