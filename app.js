@@ -13,11 +13,28 @@ function PizzaShop (locationName, storeData) {
 };
 //Display Your Results
 //Declare Store Functions and Save Results to New Store Variables
-var headerRowData = ['MinPizza\'s Each Hour', 'MaxPizza\'s Each Hour', 'MinDeliveries Each Hour', 'MaxDeliveries Each Hour']
+var headerRowData = ['Time', 'MinPizza\'s', 'MaxPizza\'s', 'MinDeliveries', 'MaxDeliveries'];
 
-var ballardData = [[0, 4, 0, 4], [0, 4, 0, 7], [2, 15, 1, 4], [15, 35, 3, 8], [ 12, 31, 5, 12], [5, 20, 6, 11]];
+var headerRowData = ['Time', 'MinPizza\'s', 'MaxPizza\'s', 'MinDeliveries', 'MaxDeliveries'];
+
+var ballardData = [
+  ['8am-11am', 0, 4, 0, 4],
+  ['11am-2pm', 0, 4, 0, 7],
+  ['2pm-5pm', 2, 15, 1, 4],
+  ['5pm-8pm', 15, 35, 3, 8],
+  ['8pm-11pm', 12, 31, 5, 12],
+  ['11pm-2am', 5, 20, 6, 11]
+];
 var ballard = new PizzaShop('Ballard', ballardData);
-var firstHillData = [[2, 4, 2, 4], [2, 4, 2, 7], [2, 3, 1, 3], [15, 35, 3, 8], [ 12, 31, 5, 12], [5, 20, 6, 11]];
+
+var firstHillData = [
+  ['8am-11am', 2, 4, 2, 4],
+  ['11am-2pm', 2, 4, 2, 7],
+  ['2pm-5pm', 2, 3, 1, 3],
+  ['5pm-8pm', 15, 35, 3, 8],
+  ['8pm-11pm', 12, 31, 5, 12],
+  ['11pm-2am', 5, 20, 6, 11]
+];
 var firstHill = new PizzaShop('First Hill', firstHillData);
 
 PizzaShop.prototype.generateRandom = function(min, max) {
@@ -127,7 +144,7 @@ PizzaShop.prototype.render = function() {
 
   //Creating my tables
   var tables = document.getElementById('addTables');
-  var pTitle = document.createElement('h1');
+  var pTitle = document.createElement('h3');
 
   headerRowData.forEach(function(theadData) {
     var thead = document.createElement('th');
