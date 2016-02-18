@@ -13,6 +13,8 @@ function PizzaShop (locationName, storeData) {
 };
 //Display Your Results
 //Declare Store Functions and Save Results to New Store Variables
+var headerRowData = ['MinPizza\'s Each Hour', 'MaxPizza\'s Each Hour', 'MinDeliveries Each Hour', 'MaxDeliveries Each Hour']
+
 var ballardData = [[0, 4, 0, 4], [0, 4, 0, 7], [2, 15, 1, 4], [15, 35, 3, 8], [ 12, 31, 5, 12], [5, 20, 6, 11]];
 var ballard = new PizzaShop('Ballard', ballardData);
 var firstHillData = [[2, 4, 2, 4], [2, 4, 2, 7], [2, 3, 1, 3], [15, 35, 3, 8], [ 12, 31, 5, 12], [5, 20, 6, 11]];
@@ -117,8 +119,21 @@ PizzaShop.prototype.render = function() {
 //   document.body.appendChild(table);
 // }
 PizzaShop.prototype.render = function() {
+
+  //Creating my table, table body, and header variables.
   var table = document.createElement('table');
   var tableBody = document.createElement('tbody');
+  var tableHeader = document.createElement('tr');
+
+  //Creating my tables
+  var tables = document.getElementById('addTables');
+  var pTitle = document.createElement('h1');
+
+  headerRowData.forEach(function(theadData) {
+    var thead = document.createElement('th');
+    thead.appendChild(document.createTextNode(theadData));
+    tableHeader.appendChild(thead);
+  });
 
   this.storeData.forEach(function(rowData) {
     var row = document.createElement('tr');
@@ -132,8 +147,13 @@ PizzaShop.prototype.render = function() {
     tableBody.appendChild(row);
   });
 
+  pTitle.textContent = this.locationName;
+  tables.appendChild(pTitle);
+
+  table.appendChild(tableHeader);
   table.appendChild(tableBody);
-  document.body.appendChild(table);
+  tables.appendChild(table);
+
 };
 
 
