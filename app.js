@@ -11,71 +11,13 @@ function PizzaShop (locationName, storeData) {
   this.storeTableData = [];
 
 };
-//Display Your Results
-//Declare Store Functions and Save Results to New Store Variables
-var headerRowData = ['Time', 'MinPizza\'s', 'MaxPizza\'s', 'MinDeliveries', 'MaxDeliveries'];
 
-var headerRowData = ['Time', 'MinPizza\'s', 'MaxPizza\'s', 'MinDeliveries', 'MaxDeliveries'];
-
-var ballardData = [
-  ['8am-11am', 0, 4, 0, 4],
-  ['11am-2pm', 0, 4, 0, 7],
-  ['2pm-5pm', 2, 15, 1, 4],
-  ['5pm-8pm', 15, 35, 3, 8],
-  ['8pm-11pm', 12, 31, 5, 12],
-  ['11pm-2am', 5, 20, 6, 11]
-];
-var ballard = new PizzaShop('Ballard', ballardData);
-
-var firstHillData = [
-  ['8am-11am', 1, 3, 1, 7],
-  ['11am-2pm', 5, 9, 2, 8],
-  ['2pm-5pm', 2, 13, 1, 6],
-  ['5pm-8pm', 18, 32, 3, 9],
-  ['8pm-11pm', 1, 3, 5, 12],
-  ['11pm-2am', 8, 20, 6, 16]
-];
-var firstHill = new PizzaShop('First Hill', firstHillData);
-
-var tidData = [
-  ['8am-11am', 0, 4, 0, 4],
-  ['11am-2pm', 0, 7, 0, 4],
-  ['2pm-5pm', 2, 15, 1, 4],
-  ['5pm-8pm', 10, 26, 4, 6],
-  ['8pm-11pm', 8, 22, 7, 15],
-  ['11pm-2am', 0, 2, 2, 8]
-];
-var tid = new PizzaShop('The International District', tidData);
-
-var sluData = [
-  ['8am-11am', 0, 4, 0, 4],
-  ['11am-2pm', 0, 7, 0, 4],
-  ['2pm-5pm', 5, 15, 0, 4],
-  ['5pm-8pm', 25, 39, 13, 18],
-  ['8pm-11pm', 22, 36, 5, 22],
-  ['11pm-2am', 5, 21, 16, 31]
-];
-var slu = new PizzaShop('South Lake Union', sluData);
-
-var georgetownData = [
-  ['8am-11am', 2, 7, 3, 5],
-  ['11am-2pm', 3, 8, 3, 9],
-  ['2pm-5pm', 1, 5, 1, 4],
-  ['5pm-8pm', 5, 13, 2, 4],
-  ['8pm-11pm', 22, 41, 15, 42],
-  ['11pm-2am', 15, 20, 6, 21]
-];
-var georgetown = new PizzaShop('Georgetown', georgetownData);
-
-var ravennaData = [
-  ['8am-11am', 0, 4, 0, 4],
-  ['11am-2pm', 0, 7, 0, 4],
-  ['2pm-5pm', 2, 15, 1, 4],
-  ['5pm-8pm', 6, 9, 5, 18],
-  ['8pm-11pm', 4, 8, 2, 5],
-  ['11pm-2am', 2, 4, 3, 11]
-];
-var ravenna = new PizzaShop('Ravenna', ravennaData);
+// var ballard = new PizzaShop('Ballard', ballardData);
+// var firstHill = new PizzaShop('First Hill', firstHillData);
+// var tid = new PizzaShop('The International District', tidData);
+// var slu = new PizzaShop('South Lake Union', sluData);
+// var georgetown = new PizzaShop('Georgetown', georgetownData);
+// var ravenna = new PizzaShop('Ravenna', ravennaData);
 
 PizzaShop.prototype.generateRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -91,7 +33,28 @@ PizzaShop.prototype.calcPizzasandDeliveriesPerHr = function() {
     }
   }
 };
-ballard.calcPizzasandDeliveriesPerHr();
+
+PizzaShop.prototype.calcPizzasPerDay = function() {
+  var pizzasPerDayTemp = 0;
+  for(var i = 0; i < this.storeData.length; i++) {
+    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
+
+    this.pizzasPerDay.push(pizzasPerDayTemp);
+  }
+};
+
+PizzaShop.prototype.totalPizzasPerDay = function() {
+  var pizzasPerDayTemp = 0;
+  for(var i = 0; i < this.storeData.length; i++) {
+    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
+    var sumpizzasPerDayTemp = 0;
+    for(var j = 0; j < pizzasPerDayTemp.length; j++) {
+      sumpizzasPerDayTemp += pizzasPerDayTemp[i];
+    }
+
+    this.pizzasPerDay.push(sumpizzasPerDayTemp);
+  }
+};
 
 PizzaShop.prototype.render = function() {
   var tablearea = document.getElementById(this.locationName);
@@ -146,9 +109,25 @@ PizzaShop.prototype.render = function() {
 
 };
 
+var ballard = new PizzaShop('Ballard', ballardData);
+var firstHill = new PizzaShop('First Hill', firstHillData);
+var tid = new PizzaShop('The International District', tidData);
+var slu = new PizzaShop('South Lake Union', sluData);
+var georgetown = new PizzaShop('Georgetown', georgetownData);
+var ravenna = new PizzaShop('Ravenna', ravennaData);
+
 ballard.render();
 firstHill.render();
 tid.render();
 slu.render();
 georgetown.render();
 ravenna.render();
+
+ballard.calcPizzasPerDay();
+firstHill.calcPizzasPerDay();
+tid.calcPizzasPerDay();
+slu.calcPizzasPerDay();
+georgetown.calcPizzasPerDay();
+ravenna.calcPizzasPerDay();
+
+// this.calcPizzasandDeliveriesPerHr();
