@@ -77,7 +77,6 @@ var ravennaData = [
 ];
 var ravenna = new PizzaShop('Ravenna', ravennaData);
 
-
 PizzaShop.prototype.generateRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -109,73 +108,6 @@ PizzaShop.prototype.render = function() {
   console.table(this.storeData);
 };
 
-// PizzaShop.prototype.render = function() {
-//
-//   this.calcPizzasandDeliveriesPerHr();
-//   ///to make the 1st header row
-//   var shopTable = document.createElement('table');
-//   var trHeader1 = document.createElement('tr');
-//   var trHeader2 = document.createElement('tr');
-//
-//
-//   var tdEl = document.createElement('td');
-//   tdEl.textContent = 'MinPizza\'s';
-//   trHeader1.appendChild(tdEl);
-//
-//   tdEl = document.createElement('td');
-//   tdEl.textContent = 'MaxPizza\'s';
-//   trHeader1.appendChild(tdEl);
-//
-//   tdEl = document.createElement('td');
-//   tdEl.textContent = 'MinDeliveries\'s';
-//   trHeader1.appendChild(tdEl);
-//
-//   tdEl = document.createElement('td');
-//   tdEl.textContent = 'MaxDeliveries\'s';
-//   trHeader1.appendChild(tdEl);
-//
-//   shopTable.appendChild(trHeader1);
-//
-//   for (var i = 0; i < this.storeData.length; i++) {
-//
-//     var trEl = document.createElement('tr');
-//     tdEl = document.createElement('td');
-//     tdEl.textContent = (this.storeData[i][0]);
-//     trEl.appendChild(tdEl);
-//
-//     shopTable.appendChild(trEl);
-//   }
-//   for (var i = 0; i < this.storeData.length; i++) {
-//
-//     var trEl = document.createElement('tr');
-//     tdEl = document.createElement('td');
-//     tdEl.textContent = (this.storeData[i][0]);
-//     trEl.appendChild(tdEl);
-//
-//     shopTable.appendChild(trEl);
-//   }
-//   document.body.appendChild(shopTable);
-// }
-
-// function createTable(tableData) {
-//   var table = document.createElement('table');
-//   var tableBody = document.createElement('tbody');
-//
-//   tableData.forEach(function(rowData) {
-//     var row = document.createElement('tr');
-//
-//     rowData.forEach(function(cellData) {
-//       var cell = document.createElement('td');
-//       cell.appendChild(document.createTextNode(cellData));
-//       row.appendChild(cell);
-//     });
-//
-//     tableBody.appendChild(row);
-//   });
-//
-//   table.appendChild(tableBody);
-//   document.body.appendChild(table);
-// }
 PizzaShop.prototype.render = function() {
 
   //Creating my table, table body, and header variables.
