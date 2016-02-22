@@ -10,18 +10,46 @@
   <title id='sales-data' class='sales-data'>Pizza Odyssey Internal Sales Data</title>
 </head>
 <body>
-  <h1>Pizza Odyssey Internal Sales Data</h1>
-  <!-- Adding Tables Here via JS PizzaShop render function. -->
-  <h2>Monthly Total Sales and Delivery Figures for Pizza Odyssey</h2>
-  <div id='monthly-totals-table'></div>
-  <h2>Weekly Total Sales and Delivery Figures for Pizza Odyssey</h2>
-  <div id='weekly-totals-table'></div>
-  <h2>Daily Total Sales and Delivery Figures for Pizza Odyssey</h2>
-  <div id='daily-totals-table'></div>
-  <h2>Daily Sales and Delivery Figures by Store</h2>
-  <div id='summary-table'></div>
-  <h2>Hourly Sales and Delivery Figures by Store</h2>
-  <div id='hourlies-table'></div>
+  <section>
+    <h1>Pizza Odyssey Internal Sales Data</h1>
+    <!-- Adding Tables Here via JS PizzaShop render function. -->
+    <h2>Monthly Total Sales and Delivery Figures for Pizza Odyssey</h2>
+    <div id='monthly-totals-table'></div>
+    <h2>Weekly Total Sales and Delivery Figures for Pizza Odyssey</h2>
+    <div id='weekly-totals-table'></div>
+    <h2>Daily Total Sales and Delivery Figures for Pizza Odyssey</h2>
+    <div id='daily-totals-table'></div>
+    <h2>Daily Sales and Delivery Figures by Store</h2>
+    <div id='summary-table'></div>
+    <h2>Hourly Sales and Delivery Figures by Store</h2>
+    <div id='hourlies-table'></div>
+  </section>
+
+  <section>
+
+    <form id="cookie-form">
+      <fieldset>
+        <legend>Submission Form</legend>
+
+        <label for="customer">Name: </label><br>
+        <input name="customer" type="text" size=175>
+
+        <label for="minCookie">Minimum: </label><br>
+        <input name="fieldOne" type="text" size=175>
+
+        <label for="maxCookie">Maximum: </label><br>
+        <input name="fieldTwo" type="text" size=175>
+
+        <button id="comment-button" type="submit">Submit</button>
+      </fieldset>
+    </form>
+
+    <button id="clear-form-list">Reset</button>
+
+    <ul id="form-list"></ul>
+
+  </section>
+  <section id='store_data'></section>
   <!--Locations:   Ballard, First Hill, The International District, South Lake Union, Georgetown, and Ravenna-->
   <script src='app-data.js'></script>
   <script src='app.js'></script>

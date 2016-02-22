@@ -1,3 +1,115 @@
-table, td {
-    border: 1px solid black;
+table {
+    border: 3px solid #B97828;
+    margin-left: 2em;
+    color: #B97828;
+    font-family: Frutiger, Avenir, Arial;
+    border-radius: 7px;
+
+}
+
+th, td {
+    color: white;
+    font-family: Frutiger, Avenir, Arial;
+    border-radius: 7px;
+
+}
+
+th {
+  border-bottom: 3px solid #B97828;
+  text-align: left;
+}
+
+.home-pizza-main {
+  height: 500px;
+  width: 500px;
+  border-radius: 5px;
+  border: 2px solid #B97828;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+  margin: 0em 0em 0em 23em;
+}
+.home-pizza-main:hover {
+  width: 550px;
+  height: 550px;
+}
+
+h1, h2, h3 {
+  color: #B97828;
+  font-family: Frutiger, Avenir, Arial;
+  margin: 1em 0 .5em 1em;
+}
+
+h1.pizza-public-title {
+  text-align: center;
+}
+
+/*Add your CSS below!*/
+
+* {
+  font-family: Frutiger, Avenir, Arial;
+}
+body {
+  background-color: #5F0101;
+  margin: 0;
+  padding-top: 0;
+}
+.nav {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 4em;
+  background-color: white;
+  border-bottom: .5em solid lightgrey;
+  overflow: auto;
+  background: transparent url(assets/white_transparent_background.jpeg);
+}
+.nav a {
+  color: #424e06;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 14px 10px;
+  text-transform: uppercase;
+}
+.nav li {
+  display: inline;
+}
+.nav .pull-left {
+  margin-left: 2em;
+}
+.nav .pull-right {
+  margin-right: 2em;
+}
+}
+/*h2, h3 {
+  text-transform: uppercase;
+}*/
+
+.about {
+  border-top: .5em solid lightgrey;
+  border-bottom: .5em solid lightgrey;
+  background-color: white;
+}
+li {
+  color: #000000;
+}
+p, ol, .goals li, .experience li {
+  color: #000000;
+  margin: 0em 0em 0em 2em;
+}
+#moveme_down {
+  margin-top: 20px;
+}
+a:link, a:visited, a {
+  text-decoration: none;
+  color: #424e06;
+}
+a:hover, a:focus, a:active {
+  font-weight: bold;
+  font-style: none;
+  text-decoration: underline;
+  color: #313b04;
 }
