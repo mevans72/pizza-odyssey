@@ -1,92 +1,133 @@
 'use strict';
+//Store your results:
+//Constructor Objects
+function PizzaShop (locationName, storeData) {
+  this.locationName = locationName;
+  this.storeData = storeData;
+  this.pizzasPerDay = [];
+  this.deliveriesPerDay = [];
+  this.pizzasPerHour = [];
+  this.deliveriesPerHour = [];
+  this.storeTableData = [];
 
-//Create the 'random number generating' function.
-function getRandomIntInclusive(min, max) {
+};
+
+// var ballard = new PizzaShop('Ballard', ballardData);
+// var firstHill = new PizzaShop('First Hill', firstHillData);
+// var tid = new PizzaShop('The International District', tidData);
+// var slu = new PizzaShop('South Lake Union', sluData);
+// var georgetown = new PizzaShop('Georgetown', georgetownData);
+// var ravenna = new PizzaShop('Ravenna', ravennaData);
+
+PizzaShop.prototype.generateRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
-//Generate the random values for pizza and deliveries for the given time slots.
-function pizzasAndDeliveriesAt(time) {
-  var pizzas = 0;
-  var deliveries = 0;
-
-  if(time >= 8 && time < 11) {
-    pizzas = getRandomIntInclusive(0,4);
-    deliveries = getRandomIntInclusive(0,4);
-  } else if(time >= 11 && time < 14) {
-    pizzas = getRandomIntInclusive(0,7);
-    deliveries = getRandomIntInclusive(0,4);
-  } else if (time >= 14 && time < 17) {
-    pizzas = getRandomIntInclusive(2, 15);
-    deliveries = getRandomIntInclusive(1, 4);
-  } else if (time >= 17 && time < 20) {
-    pizzas = getRandomIntInclusive(15, 35);
-    deliveries = getRandomIntInclusive(3, 8);
-  } else if (time >= 20 && time < 23) {
-    pizzas = getRandomIntInclusive(12, 31);
-    deliveries = getRandomIntInclusive(5, 12);
-  } else if (time >= 0 && time < 2) {
-    pizzas = getRandomIntInclusive(5, 20);
-    deliveries = getRandomIntInclusive(6, 11);
+PizzaShop.prototype.calcPizzasandDeliveriesPerHr = function() {
+  for(var i = 0; i < this.storeData.length; i++) {
+    for(var j = 0; j < 3; j++) {
+      var singleHour = this.generateRandom(this.storeData[i][0], this.storeData[i][1]);
+      this.pizzasPerHour.push(singleHour);
+      var singleHour = this.generateRandom(this.storeData[i][2], this.storeData[i][3]);
+      this.deliveriesPerHour.push(singleHour);
+    }
   }
-  return [pizzas, deliveries]
-}
+};
 
-//Create the array of pizzas and delivers.
-function itemsForLocation() {
-  var items = []
+PizzaShop.prototype.calcPizzasPerDay = function() {
+  var pizzasPerDayTemp = 0;
+  for(var i = 0; i < this.storeData.length; i++) {
+    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
 
-  for(var i = 8; i <= 23; i++) {
-    var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
-    items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
+    this.pizzasPerDay.push(pizzasPerDayTemp);
   }
+};
 
-  for(var i = 0; i <= 2; i++) {
-    var pizzasAndDeliveries = pizzasAndDeliveriesAt(i);
-    items.push(i + '00 ' + pizzasAndDeliveries[0] + ' pizzas, ' + pizzasAndDeliveries[1] + ' deliveries');
+PizzaShop.prototype.totalPizzasPerDay = function() {
+  var pizzasPerDayTemp = 0;
+  for(var i = 0; i < this.storeData.length; i++) {
+    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
+    var sumpizzasPerDayTemp = 0;
+    for(var j = 0; j < pizzasPerDayTemp.length; j++) {
+      sumpizzasPerDayTemp += pizzasPerDayTemp[i];
+    }
+
+    this.pizzasPerDay.push(sumpizzasPerDayTemp);
   }
+};
 
-  return items;
-}
-
-//Create the 'listing' function.
-function listify(placeForMahList, stuffToBeListed) {
-  //for loop to iterate through array
-  for(var i = 0; i < stuffToBeListed.length; i++) {
-    // build an <li> element
-    var liEl = document.createElement('li');
-    liEl.textContent = stuffToBeListed[i];
-    //put it in the DOM
-    placeForMahList.appendChild(liEl);
+PizzaShop.prototype.render = function() {
+  var tablearea = document.getElementById(this.locationName);
+  var shopTable = document.createElement('table');
+  var row = document.createElement('tr');
+  for(var i = 0; i < this.storeData.length; i++) {
+    var column = document.createElement('td');
+    column.textContent = this.storeData[i];
+    row.appendChild(column);
   }
-}
+  this.storeTableData.push(shopTable);
+  document.body.appendChild(shopTable);
+  console.log(this.locationName);
+  console.table(this.storeData);
+};
 
-//Ballard
-var ballard = document.getElementById('ballard');
-var ballardPizzasAndDeliveries = itemsForLocation();
-listify(ballard, ballardPizzasAndDeliveries)
+PizzaShop.prototype.render = function() {
 
-//First Hill
-var firstHill = document.getElementById('firstHill');
-var firstHillPizzasAndDeliveries = itemsForLocation();
-listify(firstHill, firstHillPizzasAndDeliveries)
+  //Creating my table, table body, and header variables.
+  var table = document.createElement('table');
+  var tableBody = document.createElement('tbody');
+  var tableHeader = document.createElement('tr');
 
-//The Internation District
-var tid = document.getElementById('tid');
-var tidPizzasAndDeliveries = itemsForLocation();
-listify(tid, tidPizzasAndDeliveries)
+  //Creating my tables
+  var tables = document.getElementById('addTables');
+  var pTitle = document.createElement('h3');
 
-//South Lake Union
-var slu = document.getElementById('slu');
-var sluPizzasAndDeliveries = itemsForLocation();
-listify(slu, sluPizzasAndDeliveries)
+  headerRowData.forEach(function(theadData) {
+    var thead = document.createElement('th');
+    thead.appendChild(document.createTextNode(theadData));
+    tableHeader.appendChild(thead);
+  });
 
-//Georgetown
-var georgetown = document.getElementById('georgetown');
-var georgetownPizzasAndDeliveries = itemsForLocation();
-listify(georgetown, georgetownPizzasAndDeliveries)
+  this.storeData.forEach(function(rowData) {
+    var row = document.createElement('tr');
 
-//Ravenna
-var ravenna = document.getElementById('ravenna');
-var ravennaPizzasAndDeliveries = itemsForLocation();
-listify(ravenna, ravennaPizzasAndDeliveries)
+    rowData.forEach(function(cellData) {
+      var cell = document.createElement('td');
+      cell.appendChild(document.createTextNode(cellData));
+      row.appendChild(cell);
+    });
+
+    tableBody.appendChild(row);
+  });
+
+  pTitle.textContent = this.locationName;
+  tables.appendChild(pTitle);
+
+  table.appendChild(tableHeader);
+  table.appendChild(tableBody);
+  tables.appendChild(table);
+
+};
+
+var ballard = new PizzaShop('Ballard', ballardData);
+var firstHill = new PizzaShop('First Hill', firstHillData);
+var tid = new PizzaShop('The International District', tidData);
+var slu = new PizzaShop('South Lake Union', sluData);
+var georgetown = new PizzaShop('Georgetown', georgetownData);
+var ravenna = new PizzaShop('Ravenna', ravennaData);
+
+ballard.render();
+firstHill.render();
+tid.render();
+slu.render();
+georgetown.render();
+ravenna.render();
+
+ballard.calcPizzasPerDay();
+firstHill.calcPizzasPerDay();
+tid.calcPizzasPerDay();
+slu.calcPizzasPerDay();
+georgetown.calcPizzasPerDay();
+ravenna.calcPizzasPerDay();
+
+// this.calcPizzasandDeliveriesPerHr();
