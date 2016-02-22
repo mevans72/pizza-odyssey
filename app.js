@@ -1,133 +1,209 @@
 'use strict';
-//Store your results:
-//Constructor Objects
-function PizzaShop (locationName, storeData) {
+
+function PizzaShop(locationName, storeData) {
   this.locationName = locationName;
   this.storeData = storeData;
-  this.pizzasPerDay = [];
-  this.deliveriesPerDay = [];
-  this.pizzasPerHour = [];
-  this.deliveriesPerHour = [];
-  this.storeTableData = [];
-
+  this.tableData = [];
+  this.pizzasEachHour = [];
+  this.pizzasEachDay = 0;
+  this.deliveriesEachHour = [];
+  this.deliveriesEachDay = 0;
+  this.recomendedDrivers = 0;
+  this.storeHoursOfOperation = ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm', '12am', '1am'];
+  this.storeTableHeader = ['Time','Pizzas Sold','Deliveries','Recommended Drivers'];
+  // this.tableData = [];
 };
 
-// var ballard = new PizzaShop('Ballard', ballardData);
-// var firstHill = new PizzaShop('First Hill', firstHillData);
-// var tid = new PizzaShop('The International District', tidData);
-// var slu = new PizzaShop('South Lake Union', sluData);
-// var georgetown = new PizzaShop('Georgetown', georgetownData);
-// var ravenna = new PizzaShop('Ravenna', ravennaData);
+var dailyTotalsAllStores = [];
+var dailyTotalPizzasAllStores = 0;
+var dailyTotalDeliveriesAllStores = 0;
+var dailyTotalPizzasAndDeliveries = [];
+var weeklyTotalsAllStores = [];
+var weeklyTotalPizzasAllStores = 0;
+var weeklyTotalDeliveriesAllStores = 0;
+var weeklyTotalPizzasAndDeliveries = [];
+var monthlyTotalsAllStores = [];
+var monthlyTotalPizzasAllStores = 0;
+var monthlyTotalDeliveriesAllStores = 0;
+var monthlyTotalPizzasAndDeliveries = [];
+var summaryHeaderAllStores = ['Location','Pizzas Sold','Deliveries','Recommended Drivers'];
+var totalsHeaderAllStores = ['Total Pizzas Sold','Total Deliveries'];
+
+var ballard = new PizzaShop('Ballard', ballardData);
+var firstHill = new PizzaShop('First Hill',firstHillData);
+var tid = new PizzaShop('The International District',tidData);
+var slu = new PizzaShop('South Lake Union',sluData);
+var georgetown = new PizzaShop('Georgetown',georgetownData);
+var ravenna = new PizzaShop('Ravenna',ravennaData);
+
 
 PizzaShop.prototype.generateRandom = function(min, max) {
+ // we'll use this to calculate hourly numbers in another method
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-PizzaShop.prototype.calcPizzasandDeliveriesPerHr = function() {
-  for(var i = 0; i < this.storeData.length; i++) {
-    for(var j = 0; j < 3; j++) {
-      var singleHour = this.generateRandom(this.storeData[i][0], this.storeData[i][1]);
-      this.pizzasPerHour.push(singleHour);
-      var singleHour = this.generateRandom(this.storeData[i][2], this.storeData[i][3]);
-      this.deliveriesPerHour.push(singleHour);
-    }
+PizzaShop.prototype.calcStoreData = function() {
+  // longwinded that works is AWESOME
+  //Calculate hourly sales and delivery figures by store assuming 18 hours of operation
+  for (var i = 0; i < this.storeData.length; i++) {
+    this.pizzasEachHour = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
+    this.deliveriesEachHour = this.generateRandom(this.storeData[i][3], this.storeData[i][4]);
+    this.recomendedDrivers = Math.floor(this.deliveriesEachHour/3) + 1;
+    // console.log(this.hoursOfOperation[i] + ' ' + soldThisHour);
+    this.tableData.push([this.storeHoursOfOperation[i],this.pizzasEachHour,this.deliveriesEachHour,this.recomendedDrivers]);
+
+    this.pizzasEachDay = this.pizzasEachDay += this.pizzasEachHour;
+    this.deliveriesEachDay = this.deliveriesEachDay += this.deliveriesEachHour;
   }
-};
+  dailyTotalsAllStores.push([this.locationName,this.pizzasEachDay,this.deliveriesEachDay,this.recomendedDrivers]);
 
-PizzaShop.prototype.calcPizzasPerDay = function() {
-  var pizzasPerDayTemp = 0;
-  for(var i = 0; i < this.storeData.length; i++) {
-    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
+  //Calculate daily totals
+  var temp = 0;
+  dailyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay);
+  temp = 0;
+  dailyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay);
+  dailyTotalPizzasAndDeliveries.push([dailyTotalPizzasAllStores,dailyTotalDeliveriesAllStores]);
+  //Comments below used for troubleshooting. Could not generate totals tables using 'buildTables' function because 'TotalPizzasAndDeliveries' variable kept returning as an array. :(
 
-    this.pizzasPerDay.push(pizzasPerDayTemp);
-  }
-};
+  // dailyTotalPizzasAndDeliveries.push(dailyTotalPizzasAllStores);
+  // dailyTotalPizzasAndDeliveries.push(dailyTotalDeliveriesAllStores);
 
-PizzaShop.prototype.totalPizzasPerDay = function() {
-  var pizzasPerDayTemp = 0;
-  for(var i = 0; i < this.storeData.length; i++) {
-    pizzasPerDayTemp = this.generateRandom(this.storeData[i][1], this.storeData[i][2]);
-    var sumpizzasPerDayTemp = 0;
-    for(var j = 0; j < pizzasPerDayTemp.length; j++) {
-      sumpizzasPerDayTemp += pizzasPerDayTemp[i];
-    }
+  //Calculate weekly totals assuming six days of operation per week
+  var temp = 0;
+  weeklyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 6;
+  temp = 0;
+  weeklyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 6;
+  weeklyTotalPizzasAndDeliveries.push([weeklyTotalPizzasAllStores,weeklyTotalDeliveriesAllStores]);
 
-    this.pizzasPerDay.push(sumpizzasPerDayTemp);
-  }
-};
+  //Calculate monthly totals assuming 26 days of operation per month
+  var temp = 0;
+  monthlyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 26;
+  temp = 0;
+  monthlyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 26;
+  monthlyTotalPizzasAndDeliveries.push([monthlyTotalPizzasAllStores,monthlyTotalDeliveriesAllStores]);
+  // return dailyTotalPizzasAllStores;
+}
 
-PizzaShop.prototype.render = function() {
-  var tablearea = document.getElementById(this.locationName);
-  var shopTable = document.createElement('table');
-  var row = document.createElement('tr');
-  for(var i = 0; i < this.storeData.length; i++) {
-    var column = document.createElement('td');
-    column.textContent = this.storeData[i];
-    row.appendChild(column);
-  }
-  this.storeTableData.push(shopTable);
-  document.body.appendChild(shopTable);
-  console.log(this.locationName);
-  console.table(this.storeData);
-};
-
-PizzaShop.prototype.render = function() {
-
-  //Creating my table, table body, and header variables.
+//Build the table summary for store pizzas sold, deliveries, and recomended drivers
+function buildTables(tableData,storeTableHeader,buildLocation,location) {
+//Declare table location, store / table name, and begin building the initial table element
+  var tableLocation = document.getElementById(buildLocation);
+  var h3 = document.createElement('h3');
+  h3.textContent = location;
   var table = document.createElement('table');
-  var tableBody = document.createElement('tbody');
-  var tableHeader = document.createElement('tr');
+  var trEL = document.createElement('tr');
 
-  //Creating my tables
-  var tables = document.getElementById('addTables');
-  var pTitle = document.createElement('h3');
+  if (tableLocation) {
+    tableLocation.appendChild(h3);
+    tableLocation.appendChild(table);
+  }
+  table.appendChild(trEL);
 
-  headerRowData.forEach(function(theadData) {
-    var thead = document.createElement('th');
-    thead.appendChild(document.createTextNode(theadData));
-    tableHeader.appendChild(thead);
-  });
+//Build the table headers
+  for (var i=0; i < storeTableHeader.length; i++) {
+    var thEL = document.createElement('th');
+    thEL.textContent = storeTableHeader[i];
+    trEL.appendChild(thEL);
+  }
+  for (var i=0; i < tableData.length; i++) {
+    var trEL = document.createElement('tr');
+    table.appendChild(trEL);
+    for (var j=0; j < tableData[i].length; j++){
+      var tdEl = document.createElement('td');
+      tdEl.textContent = tableData[i][j];
+      trEL.appendChild(tdEl);
+    }
+  }
+}
 
-  this.storeData.forEach(function(rowData) {
-    var row = document.createElement('tr');
+//Build the daily table summary for store pizzas sold, deliveries, and recomended drivers
+function buildDailyTotalsTable(totalPizzas,totalDeliveries,buildLocation){
+  var totalsTable = document.getElementById(buildLocation);
+  var table = document.createElement('table');
+  var trEL = document.createElement('tr');
+  totalsTable.appendChild(table);
+  table.appendChild(trEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Pizzas Sold';
+  trEL.appendChild(thEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Deliveries';
+  trEL.appendChild(thEL);
+  var trEL = document.createElement('tr');
+  table.appendChild(trEL);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalPizzas;
+  trEL.appendChild(tdEl);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalDeliveries;
+  trEL.appendChild(tdEl);
+}
 
-    rowData.forEach(function(cellData) {
-      var cell = document.createElement('td');
-      cell.appendChild(document.createTextNode(cellData));
-      row.appendChild(cell);
-    });
+//Build the weekly table summary for store pizzas sold, deliveries, and recomended drivers
+function buildWeeklyTotalsTable(totalPizzas,totalDeliveries,buildLocation){
+  var totalsTable = document.getElementById(buildLocation);
+  var table = document.createElement('table');
+  var trEL = document.createElement('tr');
+  totalsTable.appendChild(table);
+  table.appendChild(trEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Pizzas Sold';
+  trEL.appendChild(thEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Deliveries';
+  trEL.appendChild(thEL);
+  var trEL = document.createElement('tr');
+  table.appendChild(trEL);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalPizzas;
+  trEL.appendChild(tdEl);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalDeliveries;
+  trEL.appendChild(tdEl);
+}
 
-    tableBody.appendChild(row);
-  });
+//Build the monthly table summary for store pizzas sold, deliveries, and recomended drivers
+function buildMonthlyTotalsTable(totalPizzas,totalDeliveries,buildLocation){
+  var totalsTable = document.getElementById(buildLocation);
+  var table = document.createElement('table');
+  var trEL = document.createElement('tr');
+  totalsTable.appendChild(table);
+  table.appendChild(trEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Pizzas Sold';
+  trEL.appendChild(thEL);
+  var thEL = document.createElement('th');
+  thEL.textContent = 'Total Deliveries';
+  trEL.appendChild(thEL);
+  var trEL = document.createElement('tr');
+  table.appendChild(trEL);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalPizzas;
+  trEL.appendChild(tdEl);
+  var tdEl = document.createElement('td');
+  tdEl.textContent = totalDeliveries;
+  trEL.appendChild(tdEl);
+}
 
-  pTitle.textContent = this.locationName;
-  tables.appendChild(pTitle);
-
-  table.appendChild(tableHeader);
-  table.appendChild(tableBody);
-  tables.appendChild(table);
-
+//Build the total table
+PizzaShop.prototype.render = function() {
+  var totals = this.calcStoreData();
+  buildTables(this.tableData,this.storeTableHeader,'hourlies-table',this.locationName);
 };
 
-var ballard = new PizzaShop('Ballard', ballardData);
-var firstHill = new PizzaShop('First Hill', firstHillData);
-var tid = new PizzaShop('The International District', tidData);
-var slu = new PizzaShop('South Lake Union', sluData);
-var georgetown = new PizzaShop('Georgetown', georgetownData);
-var ravenna = new PizzaShop('Ravenna', ravennaData);
+var ballardTotal = ballard.render();
+var firstHillTotal = firstHill.render();
+var tidTotal = tid.render();
+var sluTotal = slu.render();
+var georgetownTotal = georgetown.render();
+var ravennaTotal = ravenna.render();
 
-ballard.render();
-firstHill.render();
-tid.render();
-slu.render();
-georgetown.render();
-ravenna.render();
-
-ballard.calcPizzasPerDay();
-firstHill.calcPizzasPerDay();
-tid.calcPizzasPerDay();
-slu.calcPizzasPerDay();
-georgetown.calcPizzasPerDay();
-ravenna.calcPizzasPerDay();
-
-// this.calcPizzasandDeliveriesPerHr();
+//Build the monthly total table
+buildMonthlyTotalsTable(monthlyTotalPizzasAllStores,monthlyTotalDeliveriesAllStores,'monthly-totals-table');
+//Build the weekly total table
+buildWeeklyTotalsTable(weeklyTotalPizzasAllStores,weeklyTotalDeliveriesAllStores,'weekly-totals-table');
+//Build the daily total table
+buildDailyTotalsTable(dailyTotalPizzasAllStores,dailyTotalDeliveriesAllStores,'daily-totals-table');
+// buildTables(dailyTotalPizzasAndDeliveries,totalsHeaderAllStores,'totals-table');
+//Daily Sales and Delivery Figures by Store
+buildTables(dailyTotalsAllStores,summaryHeaderAllStores,'summary-table');

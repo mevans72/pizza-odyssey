@@ -3,20 +3,28 @@
 
 <head>
 
-<!-- <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+  <!-- <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
   <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css"> -->
-<link type="text/css" rel="stylesheet" href="stylesheet.css" />
+  <link type='text/css' rel='stylesheet' href='stylesheet.css' />
 
-<title id='home'>Pizza Odyssey Sales Data</title>
+  <title id='sales-data' class='sales-data'>Pizza Odyssey Internal Sales Data</title>
 </head>
-
 <body>
-  <h1>Pizza Odyssey Sales Data</h1>
-  <div id="addTables">
-    <!-- Adding Tables Here via JS PizzaShop render function. -->
-  </div>
-<!--Locations:   Ballard, First Hill, The International District, South Lake Union, Georgetown, and Ravenna-->
+  <h1>Pizza Odyssey Internal Sales Data</h1>
+  <!-- Adding Tables Here via JS PizzaShop render function. -->
+  <h2>Monthly Total Sales and Delivery Figures for Pizza Odyssey</h2>
+  <div id='monthly-totals-table'></div>
+  <h2>Weekly Total Sales and Delivery Figures for Pizza Odyssey</h2>
+  <div id='weekly-totals-table'></div>
+  <h2>Daily Total Sales and Delivery Figures for Pizza Odyssey</h2>
+  <div id='daily-totals-table'></div>
+  <h2>Daily Sales and Delivery Figures by Store</h2>
+  <div id='summary-table'></div>
+  <h2>Hourly Sales and Delivery Figures by Store</h2>
+  <div id='hourlies-table'></div>
+  <!--Locations:   Ballard, First Hill, The International District, South Lake Union, Georgetown, and Ravenna-->
   <script src='app-data.js'></script>
-  <script src="app.js"></script>
+  <script src='app.js'></script>
 </body>
+
 </html>
