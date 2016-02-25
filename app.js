@@ -52,16 +52,14 @@ PizzaShop.prototype.calcStoreData = function() {
     // console.log(this.hoursOfOperation[i] + ' ' + soldThisHour);
     this.tableData.push([this.storeHoursOfOperation[i],this.pizzasEachHour,this.deliveriesEachHour,this.recomendedDrivers]);
 
-    this.pizzasEachDay = this.pizzasEachDay += this.pizzasEachHour;
-    this.deliveriesEachDay = this.deliveriesEachDay += this.deliveriesEachHour;
+    this.pizzasEachDay += this.pizzasEachHour;
+    this.deliveriesEachDay += this.deliveriesEachHour;
   }
   dailyTotalsAllStores.push([this.locationName,this.pizzasEachDay,this.deliveriesEachDay,this.recomendedDrivers]);
 
   //Calculate daily totals
-  var temp = 0;
-  dailyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay);
-  temp = 0;
-  dailyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay);
+  dailyTotalPizzasAllStores = ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay;
+  dailyTotalDeliveriesAllStores = ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay;
   dailyTotalPizzasAndDeliveries.push([dailyTotalPizzasAllStores,dailyTotalDeliveriesAllStores]);
   //Comments below used for troubleshooting. Could not generate totals tables using 'buildTables' function because 'TotalPizzasAndDeliveries' variable kept returning as an array. :(
 
@@ -69,20 +67,18 @@ PizzaShop.prototype.calcStoreData = function() {
   // dailyTotalPizzasAndDeliveries.push(dailyTotalDeliveriesAllStores);
 
   //Calculate weekly totals assuming six days of operation per week
-  var temp = 0;
-  weeklyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 6;
-  temp = 0;
-  weeklyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 6;
+  weeklyTotalPizzasAllStores = (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 6;
+
+  weeklyTotalDeliveriesAllStores = (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 6;
   weeklyTotalPizzasAndDeliveries.push([weeklyTotalPizzasAllStores,weeklyTotalDeliveriesAllStores]);
 
   //Calculate monthly totals assuming 26 days of operation per month
-  var temp = 0;
-  monthlyTotalPizzasAllStores = temp + (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 26;
-  temp = 0;
-  monthlyTotalDeliveriesAllStores = temp + (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 26;
+  monthlyTotalPizzasAllStores = (ballard.pizzasEachDay + firstHill.pizzasEachDay + tid.pizzasEachDay + slu.pizzasEachDay + georgetown.pizzasEachDay + ravenna.pizzasEachDay) * 26;
+
+  monthlyTotalDeliveriesAllStores = (ballard.deliveriesEachDay + firstHill.deliveriesEachDay + tid.deliveriesEachDay + slu.deliveriesEachDay + georgetown.deliveriesEachDay + ravenna.deliveriesEachDay) * 26;
   monthlyTotalPizzasAndDeliveries.push([monthlyTotalPizzasAllStores,monthlyTotalDeliveriesAllStores]);
   // return dailyTotalPizzasAllStores;
-}
+};
 
 //Build the table summary for store pizzas sold, deliveries, and recomended drivers
 function buildTables(tableData,storeTableHeader,buildLocation,location) {
@@ -190,6 +186,38 @@ PizzaShop.prototype.render = function() {
   var totals = this.calcStoreData();
   buildTables(this.tableData,this.storeTableHeader,'hourlies-table',this.locationName);
 };
+
+
+var pizzaForm = document.getElementById('new-pizza-form');
+pizzaForm.addEventListener('submit', function(event){
+  event.preventDefault();//always do this with a form!
+  console.log('Yes...Event!');
+  var location = event.target.location.value;
+  console.log('Location is: ' + location);
+  var minPizzasInput = parseInt(event.target.minPizzas.value);
+  console.log('Min is: ' + minPizzasInput);
+  var maxPizzasInput = parseInt(event.target.maxPizzas.value);
+  console.log('Max is: ' + maxPizzasInput);
+  newStoreFromForm(location, minPizzasInput, maxPizzasInput);
+});
+
+function newStoreFromForm(location, minPizzas, maxPizzas) {
+  var newStoreData = genStoreData(minPizzas, maxPizzas);
+  var newStore = new PizzaShop(location, newStoreData);
+  newStore.render();
+}
+
+function genStoreData(min, max) {
+  var times = ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm', '12am', '1am'];
+  var result = [];
+  for(var i = 0; i < times.length; i++) {
+    var arrayForHr = [times[i], min, max, min, max];
+    result.push(arrayForHr);
+  }
+  console.log('We turned the form data into this ');
+  console.table(result);
+  return result;
+}
 
 var ballardTotal = ballard.render();
 var firstHillTotal = firstHill.render();
